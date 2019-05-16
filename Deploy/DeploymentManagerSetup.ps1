@@ -3,10 +3,11 @@
 Sets up all the required resources for an ADM rollout and launches the rollout.
 #>
 
-param (
-	[string] $subscriptionId,
-	[string] $resourceGroupName,
-	[string] $location
+param 
+(
+    [string] $subscriptionId,
+    [string] $resourceGroupName,
+    [string] $location
 )
 
 $global:createRolloutTemplate = ".\CreateRollout.json"
@@ -27,7 +28,7 @@ Sets up all the required artifacts and DeploymentManager resources and launches 
 #>
 function Setup-EndToEnd
 {
-	param
+    param
 	(
         $subscriptionId,
         $resourceGroupName,
@@ -91,7 +92,6 @@ function Setup-Rollout
         $resourceGroupName,
         $location
     )
-
 
     $rolloutName = $resourceGroupName + "Rollout"
 
