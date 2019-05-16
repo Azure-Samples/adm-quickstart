@@ -1,0 +1,57 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+  "parameters": {
+    "namePrefix": {
+      "type": "string",
+			"metadata": {
+				"description": "The prefix with which rollout resource is created."
+			}
+    },
+    "azureResourceLocation": {
+      "type": "string",
+			"defaultValue": "[resourceGroup().location]",
+			"metadata": {
+				"description": "The location to deploy the resource."
+			}
+    }
+  },
+  "resources": [
+    {
+      "location": "Central US",
+      "apiVersion": "2018-09-01-preview",
+      "type": "Microsoft.DeploymentManager/rollouts",
+      "name": "[concat(parameters('namePrefix'),'Rollout')]",
+      "location": "[parameters('azureResourceLocation')]",
+      "Identity": {
+        "type": "userAssigned",
+        "identityIds": [
+            "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', concat(parameters('namePrefix'),'Identity'))]"
+        ]
+      },
+      "properties": {
+        "buildVersion": "1.0.0",
+        "targetServiceTopologyId": "[resourceId('Microsoft.DeploymentManager/serviceTopologies', concat(parameters('namePrefix'),'ServiceTopology'))]",
+        "artifactSourceId": "[resourceId('Microsoft.DeploymentManager/artifactSources', concat(parameters('namePrefix'),'ArtifactSource'))]",
+        "stepGroups": [
+          {
+            "name": "PilotRegion",
+            "postDeploymentSteps": [
+              {
+                "stepId": "[resourceId('Microsoft.DeploymentManager/steps', concat(parameters('namePrefix'),'WaitStep'))]"
+              }
+            ],
+            "deploymentTargetId": "[resourceId('Microsoft.DeploymentManager/serviceTopologies/services/serviceUnits', concat(parameters('namePrefix'),'ServiceTopology'), concat(parameters('namePrefix'),'ServiceWUS'), concat(parameters('namePrefix'),'ServiceUnitWUSWeb'))]"
+          },
+          {
+            "name": "MediumLoadRegion",
+            "deploymentTargetId": "[resourceId('Microsoft.DeploymentManager/serviceTopologies/services/serviceUnits', concat(parameters('namePrefix'),'ServiceTopology'), concat(parameters('namePrefix'),'ServiceEUS'), concat(parameters('namePrefix'),'ServiceUnitEUSWeb'))]",
+            "dependsOnStepGroups": [
+              "PilotRegion"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+"contentVersion": "1.0.0.0"
+}

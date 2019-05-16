@@ -1,0 +1,140 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+	"parameters": {
+		"namePrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "The prefix with which all resources are created."
+			}
+		},
+		"azureResourcelocation": {
+			"type": "string",
+			"defaultValue": "[resourceGroup().location]",
+			"metadata": {
+				"description": "The location to deploy the resources."
+			}
+		},
+		"artifactSourceSASLocation": {
+			"type": "secureString",
+			"metadata": {
+				"description": "The SAS URI to the root directory where templates and parameters files are stored for deployment."
+			}
+		},
+		"targetSubscriptionId": {
+			"type": "string",
+			"metadata": {
+				"description": "The target subscription Id for services being deployed by ADM."
+			}
+		}
+	},
+	"resources": [
+		{
+			"type": "Microsoft.DeploymentManager/artifactSources",
+			"name": "[concat(parameters('namePrefix'),'ArtifactSource')]",
+			"location": "[parameters('azureResourceLocation')]",
+			"apiVersion": "2018-09-01-preview",
+			"properties": {
+				"sourceType": "AzureStorage",
+				"artifactRoot": "ArtifactRoot",
+				"authentication": {
+					"type": "SAS",
+					"properties": {
+						"sasUri": "[parameters('artifactSourceSASLocation')]"
+					}
+				}
+			}
+		},
+		{
+			"type": "Microsoft.DeploymentManager/steps",
+			"name": "[concat(parameters('namePrefix'),'WaitStep')]",
+			"location": "[parameters('azureResourceLocation')]",
+			"apiVersion": "2018-09-01-preview",
+			"properties": {
+				"stepType": "wait",
+				"attributes": {
+					"duration": "PT5M"
+				}
+			}
+		},
+		{
+			"location": "[parameters('azureResourceLocation')]",
+			"apiVersion": "2018-09-01-preview",
+			"type": "Microsoft.DeploymentManager/serviceTopologies",
+			"name": "[concat(parameters('namePrefix'),'ServiceTopology')]",
+			"properties": {
+				"artifactSourceId": "[resourceId('Microsoft.DeploymentManager/artifactSources', concat(parameters('namePrefix'),'ArtifactSource'))]"
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.DeploymentManager/artifactSources', concat(parameters('namePrefix'),'ArtifactSource'))]",
+				"[resourceId('Microsoft.DeploymentManager/steps', concat(parameters('namePrefix'),'WaitStep'))]"
+			],
+			"resources" : [
+				{
+					"location": "[parameters('azureResourceLocation')]",
+					"apiVersion": "2018-09-01-preview",
+					"type": "services",
+					"name": "[concat(parameters('namePrefix'),'ServiceEUS')]",
+					"dependsOn": [
+						"[resourceId('Microsoft.DeploymentManager/serviceTopologies', concat(parameters('namePrefix'),'ServiceTopology'))]"
+					],
+					"properties": {
+						"targetSubscriptionId": "[parameters('targetSubscriptionID')]",
+						"targetLocation": "East US"
+					},
+					"resources" : [
+						{
+							"location": "[parameters('azureResourceLocation')]",
+							"apiVersion": "2018-09-01-preview",
+							"type": "serviceUnits",
+							"name": "[concat(parameters('namePrefix'),'ServiceUnitEUSWeb')]",
+							"dependsOn": [
+								"[resourceId('Microsoft.DeploymentManager/serviceTopologies/services', concat(parameters('namePrefix'),'ServiceTopology'), concat(parameters('namePrefix'),'ServiceEUS'))]"
+							],
+							"properties": {
+								"targetResourceGroup": "[concat(parameters('namePrefix'), 'ServiceEUSrg')]",
+								"deploymentMode": "Incremental",
+								"artifacts": {
+									"templateArtifactSourceRelativePath": "Templates/WebApp.Template.json",
+									"parametersArtifactSourceRelativePath": "Parameters/WebApp.Parameters_EUS.json"
+								}
+							}
+						}
+					]
+				},
+				{
+					"location": "[parameters('azureResourceLocation')]",
+					"apiVersion": "2018-09-01-preview",
+					"type": "services",
+					"name": "[concat(parameters('namePrefix'),'ServiceWUS')]",
+					"dependsOn": [
+						"[resourceId('Microsoft.DeploymentManager/serviceTopologies', concat(parameters('namePrefix'),'ServiceTopology'))]"
+					],
+					"properties": {
+						"targetSubscriptionId": "[parameters('targetSubscriptionID')]",
+						"targetLocation": "West US"
+					},
+					"resources" : [
+						{
+							"location": "[parameters('azureResourceLocation')]",
+							"apiVersion": "2018-09-01-preview",
+							"type": "serviceUnits",
+							"name": "[concat(parameters('namePrefix'),'ServiceUnitWUSWeb')]",
+							"dependsOn": [
+								"[resourceId('Microsoft.DeploymentManager/serviceTopologies/services', concat(parameters('namePrefix'),'ServiceTopology'), concat(parameters('namePrefix'),'ServiceWUS'))]"
+							],
+							"properties": {
+								"targetResourceGroup": "[concat(parameters('namePrefix'), 'ServiceWUSrg')]",
+								"deploymentMode": "Incremental",
+								"artifacts": {
+									"templateArtifactSourceRelativePath": "Templates/WebApp.Template.json",
+									"parametersArtifactSourceRelativePath": "Parameters/WebApp.Parameters_WUS.json"
+								}
+							}
+						}
+					]
+				}
+			]
+		}
+	],
+	"contentVersion": "1.0.0.0"
+}
