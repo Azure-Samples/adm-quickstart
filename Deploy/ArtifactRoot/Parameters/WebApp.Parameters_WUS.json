@@ -1,0 +1,33 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appService_name": {
+            "value": "__WEBAPP_PREFIX__-wus-AdmSample"
+        },
+        "appServicePlan_location": {
+            "value": "West US"
+        },
+        "appServicePlan_name": {
+            "value": "__WEBAPP_PREFIX__-wus-AppPlan"
+        },
+        "appServicePlan_skuName": {
+            "value": "S1"
+        },
+        "appServicePlan_skuTier": {
+            "value": "Standard"
+        },
+        "appServicePlan_skuFamily": {
+            "value": "S1"
+        },
+        "appServicePlan_skuSize": {
+            "value": "S"
+        },
+        "appServicePlan_workerSizeId": {
+            "value": 0
+        },
+        "servicePackageLink": {
+            "value": "$containerRoot\\bin\\WebApp.zip"
+        }
+    }
+}
