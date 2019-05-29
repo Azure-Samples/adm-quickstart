@@ -19,7 +19,7 @@ Install-Module -Name Az.ManagedServiceIdentity
 ## Details
 
 App directory: 
-Contains the code and scripts that make up the WebApp. This code is taken from the Azure NodeJS based WebApp sample: https://github.com/Azure-Samples/nodejs-docs-hello-world/
+Contains the code and scripts that make up the WebApp. This code at the time of this writing was taken from the Azure NodeJS based WebApp sample: https://github.com/Azure-Samples/nodejs-docs-hello-world/
 
 Deploy directory:
 The artifacts and scripts that are used to deploy the app using ADM. 
