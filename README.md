@@ -19,7 +19,7 @@ Install-Module -Name Az.ManagedServiceIdentity
 ## Details
 
 App directory: 
-Contains the code and scripts that make up the WebApp. This code is taken from the Azure NodeJS based WebApp sample: https://github.com/Azure-Samples/nodejs-docs-hello-world/
+Contains the code and scripts that make up the WebApp. This code at the time of this writing was taken from the Azure NodeJS based WebApp sample: https://github.com/Azure-Samples/nodejs-docs-hello-world/
 
 Deploy directory:
 The artifacts and scripts that are used to deploy the app using ADM. 
@@ -68,10 +68,14 @@ Deleting the resource groups will delete all the underlying resources created as
  Remove-AzResourceGroup -Name <resourceGroupName>ServiceEUSrg
 ```
 
-
 # Resources
 
 - ADM Overview: https://docs.microsoft.com/en-us/azure/azure-resource-manager/deployment-manager-overview
 - Health Check integrated rollout with ADM: https://docs.microsoft.com/en-us/azure/azure-resource-manager/deployment-manager-health-check
 - ADM tutorial: https://docs.microsoft.com/en-us/azure/azure-resource-manager/deployment-manager-tutorial
 - ADM Health Check tutorial: https://docs.microsoft.com/en-us/azure/azure-resource-manager/deployment-manager-tutorial-health-check
+
+# Contributing
+If you'd like to contribute to this sample, see [CONTRIBUTING.MD](https://github.com/Azure-Samples/adm-quickstart/blob/master/CONTRIBUTING.md).
+
+This project has adopted the Microsoft Open Source Code of Conduct. For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact opencode@microsoft.com with any additional questions or comments.
