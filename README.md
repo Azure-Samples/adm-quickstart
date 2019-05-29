@@ -78,4 +78,4 @@ Deleting the resource groups will delete all the underlying resources created as
 # Contributing
 If you'd like to contribute to this sample, see [CONTRIBUTING.MD](https://github.com/Azure-Samples/adm-quickstart/blob/master/CONTRIBUTING.md).
 
-This project has adopted the Microsoft Open Source Code of Conduct. For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact opencode@microsoft.com with any additional questions or comments.
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact opencode@microsoft.com with any additional questions or comments.
