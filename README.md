@@ -76,10 +76,10 @@ Remove-AzResourceGroup -Name <resourceGroupName>ServiceEUSrg
 
 # Resources
 
-- ADM Overview: https://docs.microsoft.comazure/azure-resource-manager/deployment-manager-overview
-- Health Check integrated rollout with ADM: https://docs.microsoft.comazure/azure-resource-manager/deployment-manager-health-check
-- ADM tutorial: https://docs.microsoft.comazure/azure-resource-manager/deployment-manager-tutorial
-- ADM Health Check tutorial: https://docs.microsoft.comazure/azure-resource-manager/deployment-manager-tutorial-health-check
+- ADM Overview: https://docs.microsoft.com/azure/azure-resource-manager/deployment-manager-overview
+- Health Check integrated rollout with ADM: https://docs.microsoft.com/azure/azure-resource-manager/deployment-manager-health-check
+- ADM tutorial: https://docs.microsoft.com/azure/azure-resource-manager/deployment-manager-tutorial
+- ADM Health Check tutorial: https://docs.microsoft.com/azure/azure-resource-manager/deployment-manager-tutorial-health-check
 
 # Contributing
 
