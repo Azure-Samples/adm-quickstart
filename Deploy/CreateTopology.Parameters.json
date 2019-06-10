@@ -1,18 +1,18 @@
-{
+﻿{
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "namePrefix": {
-      "value": "__RESOURCE_GROUP_NAME__"
+      "value": "jgaoadm0610"
     },
     "azureResourceLocation": {
-      "value": "__LOCATION__"
+      "value": "centralus"
     },
     "artifactSourceSASLocation": {
-      "value": "__ARTIFACT_SOURCE_SAS_URI__"
+      "value": "https://jgaoadm0610stg.blob.core.windows.net/artifacts?sv=2018-03-28&sr=c&sig=rDfUF0YyizgNuiJxpfcbyLXLUm5LjdGe7EKPeoXaris%3D&st=2019-06-09T23%3A37%3A50Z&se=2019-06-12T19%3A37%3A50Z&sp=rl"
     },
     "targetSubscriptionID": {
-      "value": "__TARGET_SUBSCRIPTION_ID__"
+      "value": "65a1016d-0f67-45d2-b838-b8f373d6d52e"
     }
   }
 }

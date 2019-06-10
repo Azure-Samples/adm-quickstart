@@ -3,13 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "appService_name": {
-            "value": "__WEBAPP_PREFIX__-eus-AdmSample"
+            "value": "jgaoadm0610WebApp-eus-AdmSample"
         },
         "appServicePlan_location": {
             "value": "East US"
         },
         "appServicePlan_name": {
-            "value": "__WEBAPP_PREFIX__-eus-AppPlan"
+            "value": "jgaoadm0610WebApp-eus-AppPlan"
         },
         "appServicePlan_skuName": {
             "value": "S1"
