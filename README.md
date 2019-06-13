@@ -9,6 +9,7 @@ This quickstart deploys a simple hello-world webapp to two regions in a staged m
 
 To complete the quickstart, you need:
 
+- An Azure subscription: if you don't have an Azure subscription, [create a free account](https://azure.microsoft.com/free/) before you begin.
 - Install the Azure Az PowerShell: For the instructions, see [Owerview of Azure PowerShell](https://docs.microsoft.com/powershell/azure/overview).
 - Install the Az.ManagedServiceIdentity module. Run the 'New-AzUserAssignedIdentity' cmdlet in a PowerShell window and if you get an error signature like "The term 'New-AzUserAssignedIdentity' is not recognized as the name of a cmdlet", run the following command in a PowerShell window opened in Administrator mode.
 
