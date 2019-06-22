@@ -47,7 +47,10 @@ This project contains:
     Connect-AzAccount
     ```
 
-1. Launch the setup script by running the following command. You need to provide a subscription Id, resource group name (the script creates this resource group for you) and location for the resource groups. Make sure to give a subscription Id that is in the account you logged in with.
+1. Launch the setup script by running the following command. You need to provide a subscription Id, resource group name (the script creates this resource group for you) and location for the resource groups. 
+Make sure to give a subscription Id that is in the Azure account you logged in with.
+The resourceGroupName value is used to create a storage account and upload the artifacts required. Do not use uppercase letters or special characters in the resourceGroupName and limit the length to about 10 characters.
+
 
     ```
     .\DeploymentManagerSetup.ps1 -subscriptionId "<subscriptionId>" -resourceGroupName "<resourceGroupName>" -location "<location>"
