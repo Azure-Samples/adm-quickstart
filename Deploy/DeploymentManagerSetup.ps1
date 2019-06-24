@@ -37,7 +37,9 @@ function Setup-EndToEnd
         $targetResourceGroupNameEUS
     )
 
-    $storageAccountName = $resourceGroupName.Substring(0, [System.Math]::Min(18, $resourceGroupName.Length)).ToLower() + "stg"
+    $randomNum = Get-Random -Maximum 300
+    $storageAccountName = $resourceGroupName.Substring(0, [System.Math]::Min(18, $resourceGroupName.Length)).ToLower() + $randomNum + "stg"
+    $storageAccountName = $storageAccountName -replace '[^a-z0-9 ]'
 
     # Create resource group
     New-AzResourceGroup -Name $resourceGroupName -Location $location -Force | Out-Null
@@ -319,9 +321,16 @@ try {
     Setup-EndToEnd $subscriptionId $resourceGroupName $location $targetResourceGroupNameWUS $targetResourceGroupNameEUS
 }
 catch {
-    Write-Host "Error encountered. Deleting resources."
+    $ex = $_.Exception
+    $errorMessage = $_.Exception.Message
+
+    Write-Host "Error encountered. Deleting created resources."
     Remove-AzResourceGroup -Name $resourceGroupName -Force | Out-Null
     Remove-AzResourceGroup -Name $targetResourceGroupNameWUS -Force | Out-Null
     Remove-AzResourceGroup -Name $targetResourceGroupNameEUS -Force | Out-Null
-    throw
+    Write-Host "Deleted created resources."
+
+    Write-Error "Error: $errorMessage"
+
+    throw $ex
 }
