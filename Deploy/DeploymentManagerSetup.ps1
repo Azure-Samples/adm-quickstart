@@ -22,6 +22,8 @@ $global:appPackageRelativePath = "ArtifactRoot\bin\WebApp.zip"
 $global:westUSLocation = "West US"
 $global:eastUSLocation = "East US"
 
+$global:escapePattern = '[^a-z0-9 ]'
+
 <#
 .SYNOPSIS
 Sets up all the required artifacts and DeploymentManager resources and launches a rollout.
@@ -39,7 +41,7 @@ function Setup-EndToEnd
 
     $randomNum = Get-Random -Maximum 300
     $storageAccountName = $resourceGroupName.Substring(0, [System.Math]::Min(18, $resourceGroupName.Length)).ToLower() + $randomNum + "stg"
-    $storageAccountName = $storageAccountName -replace '[^a-z0-9 ]'
+    $storageAccountName = $storageAccountName -replace $global:escapePattern
 
     # Create resource group
     New-AzResourceGroup -Name $resourceGroupName -Location $location -Force | Out-Null
@@ -194,6 +196,7 @@ function Setup-StorageContainer
     )
 
     $webAppResourcePrefix = $resourceGroupName + "WebApp"
+    $webAppResourcePrefix = $webAppResourcePrefix -replace $global:escapePattern
     $webAppReplacementSymbol = "__WEBAPP_PREFIX__"
 
     Replace-String $webAppReplacementSymbol $webAppResourcePrefix $global:parametersEUSPath
