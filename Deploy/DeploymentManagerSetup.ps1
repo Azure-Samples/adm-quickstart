@@ -22,6 +22,8 @@ $global:appPackageRelativePath = "ArtifactRoot\bin\WebApp.zip"
 $global:westUSLocation = "West US"
 $global:eastUSLocation = "East US"
 
+$global:escapePattern = '[^a-z0-9 ]'
+
 <#
 .SYNOPSIS
 Sets up all the required artifacts and DeploymentManager resources and launches a rollout.
@@ -37,7 +39,9 @@ function Setup-EndToEnd
         $targetResourceGroupNameEUS
     )
 
-    $storageAccountName = $resourceGroupName.Substring(0, [System.Math]::Min(18, $resourceGroupName.Length)).ToLower() + "stg"
+    $randomNum = Get-Random -Maximum 300
+    $storageAccountName = $resourceGroupName.Substring(0, [System.Math]::Min(18, $resourceGroupName.Length)).ToLower() + $randomNum + "stg"
+    $storageAccountName = $storageAccountName -replace $global:escapePattern
 
     # Create resource group
     New-AzResourceGroup -Name $resourceGroupName -Location $location -Force | Out-Null
@@ -192,6 +196,7 @@ function Setup-StorageContainer
     )
 
     $webAppResourcePrefix = $resourceGroupName + "WebApp"
+    $webAppResourcePrefix = $webAppResourcePrefix -replace $global:escapePattern
     $webAppReplacementSymbol = "__WEBAPP_PREFIX__"
 
     Replace-String $webAppReplacementSymbol $webAppResourcePrefix $global:parametersEUSPath
@@ -319,9 +324,16 @@ try {
     Setup-EndToEnd $subscriptionId $resourceGroupName $location $targetResourceGroupNameWUS $targetResourceGroupNameEUS
 }
 catch {
-    Write-Host "Error encountered. Deleting resources."
+    $ex = $_.Exception
+    $errorMessage = $_.Exception.Message
+
+    Write-Host "Error encountered. Deleting created resources."
     Remove-AzResourceGroup -Name $resourceGroupName -Force | Out-Null
     Remove-AzResourceGroup -Name $targetResourceGroupNameWUS -Force | Out-Null
     Remove-AzResourceGroup -Name $targetResourceGroupNameEUS -Force | Out-Null
-    throw
+    Write-Host "Deleted created resources."
+
+    Write-Error "Error: $errorMessage"
+
+    throw $ex
 }
